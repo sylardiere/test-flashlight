@@ -39,8 +39,7 @@ jobs:
               break
             fi
             sleep 5
-          done
-
+          done 2>&1
 
       - name: Download home page
         run: |
