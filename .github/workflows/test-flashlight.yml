@@ -27,7 +27,7 @@ jobs:
       - name: Install docker compose
         uses: isbang/compose-action@v1.5.1
         with:
-          compose-file: "/module-test/docker-compose.yml"
+          compose-file: "./module-test/docker-compose.yml"
 
       - name: Check PS installation
         run: |
