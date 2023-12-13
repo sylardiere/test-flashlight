@@ -29,6 +29,18 @@ jobs:
         with:
           compose-file: "./module-test/docker-compose.yml"
 
+      - name: Wait for PrestaShop to be ready
+        run: |
+          while true; do
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000)
+            echo $HTTP_STATUS
+            if [ "$HTTP_STATUS" -eq 200 ]; then
+              echo "PrestaShop is ready."
+              break
+            fi
+            sleep 5
+          done
+
 
       - name: Download home page
         run: |
