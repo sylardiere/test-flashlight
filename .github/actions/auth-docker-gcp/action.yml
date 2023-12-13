@@ -1,0 +1,17 @@
+name: 'Auth Docker GCP'
+description: 'Auth docker'
+inputs:
+  docker-password:
+    required: true
+    description: 'GCP services account credentials'
+  docker-username:
+    required: true
+    description: 'GCP services account credentials'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Docker login
+      shell: bash
+      run: |-
+        echo '${{ inputs.docker-password }}' | docker login -u ${{ inputs.docker-username }} --password-stdin
