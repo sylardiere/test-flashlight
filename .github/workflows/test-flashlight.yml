@@ -9,6 +9,11 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
 
+      - name: List content
+        run: |
+          pwd
+          ls -ltr
+
       - name: Auth Docker GCP
         run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         env:
