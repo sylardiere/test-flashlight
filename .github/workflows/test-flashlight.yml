@@ -10,10 +10,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Auth Docker GCP
-        uses: ./.github/actions/auth-docker-gcp
-        with:
-          docker-password: ${{ secrets.DOCKER_PASSWORD }}
-          docker-username: ${{ secrets.DOCKER_USERNAME }}
+        run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        # uses: ./.github/actions/auth-docker-gcp
+        # with:
+        #   docker-password: ${{ secrets.DOCKER_PASSWORD }}
+        #   docker-username: ${{ secrets.DOCKER_USERNAME }}
 
       - name: Install docker compose
         uses: isbang/compose-action@v1.5.1
@@ -29,7 +33,7 @@ jobs:
         run: |
           curl -s http://localhost:8000 > homepage.html
           echo "Contenu de la page" > homepage.html
-          
+
       - name: List content
         run: |
           pwd
