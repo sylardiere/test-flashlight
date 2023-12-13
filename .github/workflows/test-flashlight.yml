@@ -24,10 +24,16 @@ jobs:
         #   docker-password: ${{ secrets.DOCKER_PASSWORD }}
         #   docker-username: ${{ secrets.DOCKER_USERNAME }}
 
-      - name: Install docker compose
-        uses: isbang/compose-action@v1.5.1
-        with:
-          compose-file: "./module-test/docker-compose.yml"
+
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
+      - name: Build and run Docker Compose services
+        run: |
+          docker-compose up -d
+        working-directory: module-test
 
       - name: Wait for PrestaShop to be ready
         run: |
