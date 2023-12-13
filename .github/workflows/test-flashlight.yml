@@ -1,0 +1,35 @@
+name: Test build prestashop flashlight
+on: workflow_dispatch
+jobs:
+  build-flashlight:
+    runs-on: ubuntu-latest
+    container: prestashop/flashlight:latest
+    env:
+      MONGODB_CONNECTION_PROTOCOL: mongodb
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017
+      MONGODB_USERNAME: root
+      MONGODB_PASSWORD: example
+      PORT: 8080
+    services:
+      mysql:
+        image: mariadb:lts
+        ports:
+          - 3306:3306
+      prestashop:
+        image: prestashop/prestashop-flashlight:latest
+        ports:
+          - 8000:8000
+        env:
+          PS_DOMAIN: localhost:8000
+          INSTALL_MODULES_DIR: /ps-modules
+          ON_INSTALL_MODULES_FAILURE: fail
+
+    steps:
+      - name: Download home page
+        run: |
+          curl -s http://localhost:8000 > homepage.html
+          echo "Contenu de la page" > homepage.html
+      - name: List content
+        run: |
+          pwd
+          ls -ltr
